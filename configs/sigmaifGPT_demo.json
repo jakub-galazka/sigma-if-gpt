@@ -1,0 +1,15 @@
+{
+    "seed": 0,
+    "dataset": {
+        "sequenceLength": 6,
+        "digitsNumber": 3
+    },
+    "model": {
+        "architecture": "sigmaifGPT",
+        "type": "gpt-nano",
+        "parameters": {
+            "K": 2,
+            "aggregationThreshold": 0.6
+        }
+    }
+}

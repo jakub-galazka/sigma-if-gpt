@@ -1,5 +1,5 @@
-.ipynb_checkpoints/
-__pycache__/
-*.swp
-.env
-.pylintrc
+__pycache__
+.venv
+.vscode
+logs
+doc

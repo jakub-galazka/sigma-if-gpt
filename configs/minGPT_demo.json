@@ -1,0 +1,12 @@
+{
+    "seed": 0,
+    "dataset": {
+        "sequenceLength": 6,
+        "digitsNumber": 3
+    },
+    "model": {
+        "architecture": "minGPT",
+        "type": "gpt-nano",
+        "parameters": {}
+    }
+}

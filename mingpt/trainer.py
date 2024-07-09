@@ -10,6 +10,8 @@ import torch
 from torch.utils.data.dataloader import DataLoader
 from mingpt.utils import CfgNode as CN
 
+import logging
+
 class Trainer:
 
     @staticmethod
@@ -41,7 +43,7 @@ class Trainer:
         else:
             self.device = config.device
         self.model = self.model.to(self.device)
-        print("running on device", self.device)
+        logging.info(f"Running on device: {self.device}")
 
         # variables that will be assigned to trainer class later for logging and etc
         self.iter_num = 0

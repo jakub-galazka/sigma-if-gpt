@@ -16,6 +16,7 @@ from torch.nn import functional as F
 
 from mingpt.utils import CfgNode as CN
 
+from sigmaifgpt.sigmaif import SigmaifLayer # Sigma-if modification
 import logging
 
 # -----------------------------------------------------------------------------
@@ -81,8 +82,9 @@ class Block(nn.Module):
         self.attn = CausalSelfAttention(config)
         self.ln_2 = nn.LayerNorm(config.n_embd)
         self.mlp = nn.ModuleDict(dict(
-            c_fc    = nn.Linear(config.n_embd, 4 * config.n_embd),
-            c_proj  = nn.Linear(4 * config.n_embd, config.n_embd),
+            # Sigma-if modification
+            c_fc    = SigmaifLayer(config.n_embd, 4 * config.n_embd, config.K, config.aggregation_threshold),
+            c_proj  = SigmaifLayer(4 * config.n_embd, config.n_embd, config.K, config.aggregation_threshold),
             act     = NewGELU(),
             dropout = nn.Dropout(config.resid_pdrop),
         ))
@@ -225,7 +227,7 @@ class GPT(nn.Module):
         # separate out all parameters to those that will and won't experience regularizing weight decay
         decay = set()
         no_decay = set()
-        whitelist_weight_modules = (torch.nn.Linear, )
+        whitelist_weight_modules = (torch.nn.Linear, SigmaifLayer, ) # Sigma-if modification
         blacklist_weight_modules = (torch.nn.LayerNorm, torch.nn.Embedding)
         for mn, m in self.named_modules():
             for pn, p in m.named_parameters():
